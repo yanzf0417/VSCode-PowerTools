@@ -45,11 +45,12 @@ export function activate(context: vscode.ExtensionContext) {
 				dark:{
 					"after":{
 						contentText : "CR", 
-						backgroundColor: 'white',
+						backgroundColor: 'white;',
 						color: 'black',
 						margin: "3px", 
-						border: "1px solid white;border-radius:5px;",
-						fontStyle: "inherit;margin:0px;"
+						border: "0px solid white;border-radius:3px;",
+						fontStyle: "inherit;font-size: 75%;line-height: 75%; ",
+						fontWeight:"bold"
 					} 
 				}
 			});
