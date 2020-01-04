@@ -3,7 +3,7 @@
 	"displayName": "PowerTools",
 	"publisher": "yanzf",
 	"description": "扩展VSCode文本处理能力,提供转换大小写、base64编码解码、排序行，哈希文本等功能",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"icon": "icon.png",
 	"engines": {
 		"vscode": "^1.32.0"
