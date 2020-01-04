@@ -1,16 +1,38 @@
 {
 	"name": "powertools",
 	"displayName": "powertools",
-	"description": "",
+	"publisher": "yanzf",
+	"description": "扩展VSCode文本处理能力,提供转换大小写、base64编码解码、排序行，哈希文本等功能",
 	"version": "0.0.1",
 	"engines": {
-		"vscode": "^1.40.0"
+		"vscode": "^1.34.0"
 	},
 	"categories": [
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.touppercase","onCommand:extension.tolowercase","onCommand:extension.showlinebreak"
+		"onCommand:extension.touppercase",
+		"onCommand:extension.tolowercase",
+		"onCommand:extension.sort",
+		"onCommand:extension.sortbynum",
+		"onCommand:extension.sortdesc",
+		"onCommand:extension.sortbynumdesc",
+		"onCommand:extension.reverse",
+		"onCommand:extension.removeemptyline",
+		"onCommand:extension.removeemptylinewithwhitespace",
+		"onCommand:extension.copydoc",
+		"onCommand:extension.base64encode",
+		"onCommand:extension.base64decode",
+		"onCommand:extension.md5",
+		"onCommand:extension.sha1",
+		"onCommand:extension.makeuuid",
+		"onCommand:extension.makepass",
+		"onCommand:extension.filterline",
+		"onCommand:extension.removespace",
+		"onCommand:extension.calsum",
+		"onCommand:extension.calavg",
+		"onCommand:extension.mark",
+		"onCommand:extension.unmark"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -24,20 +46,176 @@
 				"title": "转小写"
 			},
 			{
-				"command": "extension.showlinebreak",
-				"title": "显示换行符"
+				"command": "extension.sort",
+				"title": "按文本升序排列行"
+			},
+			{
+				"command": "extension.sortbynum",
+				"title": "按数字升序排列行"
+			},
+			{
+				"command": "extension.sortdesc",
+				"title": "按文本倒序排列行"
+			},
+			{
+				"command": "extension.sortbynumdesc",
+				"title": "按数字倒序排列行"
+			},
+			{
+				"command": "extension.reverse",
+				"title": "翻转行"
+			},
+			{
+				"command": "extension.removeemptyline",
+				"title": "移除空行"
+			},
+			{
+				"command": "extension.removeemptylinewithwhitespace",
+				"title": "移除空行(含空格)"
+			},
+			{
+				"command": "extension.copydoc",
+				"title": "复制当前文档"
+			},
+			{
+				"command": "extension.base64encode",
+				"title": "Base64编码"
+			},
+			{
+				"command": "extension.base64decode",
+				"title": "Base64解码"
+			},
+			{
+				"command": "extension.md5",
+				"title": "查看MD5"
+			},
+			{
+				"command": "extension.sha1",
+				"title": "查看SHA1"
+			},
+			{
+				"command": "extension.makeuuid",
+				"title": "生成32位随机串"
+			},
+			{
+				"command": "extension.makepass",
+				"title": "生成强密码"
+			},
+			{
+				"command": "extension.filterline",
+				"title": "筛选行"
+			},
+			{
+				"command": "extension.removespace",
+				"title": "移除首尾空格"
+			},
+			{
+				"command": "extension.calsum",
+				"title": "求和"
+			},
+			{
+				"command": "extension.calavg",
+				"title": "求平均"
+			},
+			{
+				"command": "extension.mark",
+				"title": "标记"
+			},
+			{
+				"command": "extension.unmark",
+				"title": "取消标记"
 			}
-		],
+		], 
 		"menus": {
 			"editor/context": [
 				{
-					"command": "extension.touppercase"
+					"command": "extension.mark",
+					"group": "z0@1"
 				},
 				{
-					"command": "extension.tolowercase"
+					"command": "extension.unmark",
+					"group": "z0@2"
 				},
 				{
-					"command": "extension.showlinebreak"
+					"command": "extension.touppercase",
+					"group": "z1@1"
+				},
+				{
+					"command": "extension.tolowercase",
+					"group": "z1@2"
+				},
+				{
+					"command": "extension.base64encode",
+					"group": "z1@3"
+				},
+				{
+					"command": "extension.base64decode",
+					"group": "z1@4"
+				},
+				{
+					"command": "extension.sort",
+					"group": "z2@1"
+				},
+				{
+					"command": "extension.sortdesc",
+					"group": "z2@2"
+				},
+				{
+					"command": "extension.sortbynum",
+					"group": "z2@3"
+				},
+				{
+					"command": "extension.sortbynumdesc",
+					"group": "z2@4"
+				},
+				{
+					"command": "extension.reverse",
+					"group": "z2@5"
+					
+				},
+				{
+					"command": "extension.removeemptyline",
+					"group": "z3@1"
+				},
+				{
+					"command": "extension.removeemptylinewithwhitespace",
+					"group": "z3@2"
+				},
+				{
+					"command": "extension.removespace",
+					"group": "z3@3"
+				},
+				{
+					"command": "extension.filterline",
+					"group": "z3@4"
+				},
+				{
+					"command": "extension.copydoc",
+					"group": "z4@1"
+				},
+				{
+					"command": "extension.md5",
+					"group": "z4@2"
+				},
+				{
+					"command": "extension.sha1",
+					"group": "z4@3"
+				},
+				{
+					"command": "extension.makeuuid",
+					"group": "z4@4"
+				},
+				{
+					"command": "extension.makepass",
+					"group": "z4@5"
+				},
+				{
+					"command": "extension.calsum",
+					"group": "z5@1"
+				},
+				{
+					"command": "extension.calavg",
+					"group": "z5@2"
 				}
 			]
 		}
@@ -53,11 +231,12 @@
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^10.12.21",
-		"@types/vscode": "^1.40.0",
+		"@types/vscode": "^1.34.0",
 		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
 		"typescript": "^3.3.1",
 		"tslint": "^5.12.1",
 		"vscode-test": "^1.2.0"
-	}
+	},
+	"dependencies": {}
 }

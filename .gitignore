@@ -6,3 +6,4 @@ src/test/
 out/
 *.vsix
 *.rar
+package.json

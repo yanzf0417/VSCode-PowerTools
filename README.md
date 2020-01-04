@@ -1,65 +1,45 @@
-# powertools README
+# ReadMe
 
-This is the README for your extension "powertools". After writing up a brief description, we recommend including the following sections.
+PowerTools目的是扩展VSCode文本处理能力,提供转换大小写、base64编码解码、排序行，哈希文本等功能。 
 
-## Features
+## 主要功能
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### 文本处理
 
-For example if there is an image subfolder under your extension project workspace:
+- 大小写转换
+- base64编码/解码
+- 移除空行
+- 移除首尾空格
+- 筛选行
 
-\!\[feature X\]\(images/feature-x.png\)
+### 行处理
+- 按文本排序行
+- 按数字排序行
+- 翻转行
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### 其他功能
+- 选中文本哈希
+- 生成32位随机串
+- 生成强密码
+- 对选中文本求和
+- 对选中文本取平均 
+ 
 
-## Requirements
+### 演示
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+![list](https://github.com/yanzf0417/assets/blob/master/powertools/list.png?raw=true)
 
-## Extension Settings
+![toupper](https://github.com/yanzf0417/assets/blob/master/powertools/toupper.gif?raw=true)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+![sort](https://github.com/yanzf0417/assets/blob/master/powertools/sort.gif?raw=true)
 
-For example:
+![base64](https://github.com/yanzf0417/assets/blob/master/powertools/base64.gif?raw=true)
+ 
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
+## Release Notes 
 
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
+Initial release
+ 
 **Enjoy!**
