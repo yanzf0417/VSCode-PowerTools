@@ -2,7 +2,7 @@
 	"name": "powertools",
 	"displayName": "PowerTools",
 	"publisher": "yanzf",
-	"description": "扩展VSCode文本处理能力,提供转换大小写、base64编码解码、排序行，哈希文本等功能",
+	"description": "扩展VSCode文本处理能力,提供转换大小写、base64编码解码、排序行，哈希文本，自定义指令等功能",
 	"version": "1.0.0",
 	"icon": "icon.png",
 	"engines": {
@@ -33,10 +33,20 @@
 		"onCommand:extension.calsum",
 		"onCommand:extension.calavg",
 		"onCommand:extension.mark",
-		"onCommand:extension.unmark"
+		"onCommand:extension.unmark",
+		"onCommand:extension.custom"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration":{
+			"title": "PowerTools",
+			"properties": {
+				"powertools.CommandFiles":{
+					"type":"array",
+					"description": "自定义指令文件(夹)路径"
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "extension.touppercase",
@@ -125,6 +135,10 @@
 			{
 				"command": "extension.unmark",
 				"title": "取消标记"
+			},
+			{
+				"command": "extension.custom",
+				"title": "自定义指令"
 			}
 		],
 		"menus": {
@@ -216,9 +230,19 @@
 				{
 					"command": "extension.calavg",
 					"group": "z5@2"
+				},
+				{
+					"command": "extension.custom",
+					"group": "z6@1"
 				}
 			]
-		}
+		},
+		"keybindings":[
+			{
+				"command": "extension.custom",
+				"key": "ctrl+l k"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

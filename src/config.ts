@@ -1,4 +1,4 @@
-import { SelectedLine, Utils, Command } from './lib'; 
+import { SelectedLine, Utils, Command, CustomCommandLoader } from './lib';
 import { TextLine, window } from 'vscode';
 
 export let config: Command[] = [
@@ -138,6 +138,10 @@ export let config: Command[] = [
         name: "extension.makepass",
         allowEditorIsNull: true,
         actions: [getPassLen, "makepass($0)"]
+    },
+    {
+        name: "extension.custom",
+        actions: [CustomCommandLoader.LoadCustomCommandConfig, "selectCustomCommand($0)", "runCustomCommand($1)"]
     }
 ];
 

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import { createHash } from 'crypto';
 
 export interface SelectedLine {
@@ -22,27 +23,37 @@ export interface Command {
     allowEditorIsNull?: boolean;
 }
 
-export class Processer {
 
+export class Processer {
     private _outputchannel?: vscode.OutputChannel;
 
     public makeUuid(): Processer {
         let uuid = Utils.makeUuid();
-        this.showMsg(uuid);
+        this.print(uuid);
         return this;
     }
 
     public makepass(len: number): Processer {
         let pass = Utils.makePass(len);
-        this.showMsg(pass);
+        this.print(pass);
         return this;
     }
 
-    public showMsg(msg: string) {
+    public print(msg: string) {
         const outputChannel = this.getOutputChannel();
         outputChannel.appendLine(msg);
         outputChannel.show();
     }
+
+    public require(module: string) {
+        return require(module);
+    }
+
+    public async selectCustomCommand(commands: CustomCommand[]): Promise<CustomCommand | undefined> {
+        let command = await vscode.window.showQuickPick<CustomCommand>(commands, { canPickMany: false });
+        return command;
+    }
+
     public getOutputChannel(): vscode.OutputChannel {
         if (this._outputchannel === undefined) {
             this._outputchannel = vscode.window.createOutputChannel("PowerTools");
@@ -58,6 +69,10 @@ export class TextProcesser extends Processer {
     public constructor(editor: vscode.TextEditor) {
         super();
         this._editor = editor;
+    }
+
+    public getEditor(): vscode.TextEditor {
+        return this._editor;
     }
 
     public async copyDoc(): Promise<TextProcesser> {
@@ -127,7 +142,7 @@ export class TextProcesser extends Processer {
             for (let index = 0; index < length; index++) {
                 const line = this._editor.document.lineAt(start + index);
                 const replaceLine = this._editor.document.lineAt(end - index);
-                textEdit.replace(line.range, replaceLine.text); 
+                textEdit.replace(line.range, replaceLine.text);
                 lines[index].lineNumber = end - index;
             }
         });
@@ -151,13 +166,13 @@ export class TextProcesser extends Processer {
             const line = lines[index];
             const txt = (columnBlock ? line.selectedText : line.text).trim();
             if (!/^[0-9]+$/.test(txt)) {
-                this.showMsg(`[line:${line.lineNumber}][text:${txt}] is not a number`);
+                this.print(`[line:${line.lineNumber}][text:${txt}] is not a number`);
                 return;
             }
             const num = parseFloat(txt);
             nums.push(num);
         }
-        this.showMsg(fn(nums).toString());
+        this.print(fn(nums).toString());
     }
 
     public deleteLineChars(lines: SelectedLine[], pattern: string) {
@@ -201,18 +216,31 @@ export class TextProcesser extends Processer {
     public md5(range: vscode.Range): TextProcesser {
         let text = this._editor.document.getText(range);
         let hashText = Utils.hash(text, "md5");
-        this.showMsg(hashText);
+        this.print(hashText);
         return this;
     }
 
     public sha1(range: vscode.Range): TextProcesser {
         let text = this._editor.document.getText(range);
         let hashText = Utils.hash(text, "sha1");
-        this.showMsg(hashText);
+        this.print(hashText);
         return this;
+    } 
+
+    public async runCustomCommand(command: CustomCommand): Promise<any> {
+        return  await command.func.call(null, this);
     }
 
-    public getProcessLines(): SelectedLine[] {
+    public async edit(changes: [vscode.Range, string][]): Promise<boolean> {
+        return await this._editor.edit((textEditor) => {
+            for (let index = 0; index < changes.length; index++) {
+                const change = changes[index];
+                textEditor.replace(change[0], change[1]);
+            }
+        });
+    }
+
+    public getProcessLines(): SelectedLine[] { 
         return this.isSelectNothing() ? this.getAllLines() : this.getSelectedLines();
     }
 
@@ -251,11 +279,12 @@ export class TextProcesser extends Processer {
         }
         return lines;
     }
+
     public isSelectNothing(): boolean {
         return this._editor.selections.length === 1 && this._editor.selection.start.isEqual(this._editor.selection.end);
     }
 
-    public isColumnBlock() {
+    public isColumnBlock(): boolean {
         let firstSelection = this._editor.selection;
         return this._editor.selections.length > 1 && this._editor.selections.reduce<boolean>((previousValue, currentValue) => { return previousValue && currentValue.start.character === firstSelection.start.character && currentValue.end.character <= firstSelection.end.character; }, true);
     }
@@ -358,3 +387,62 @@ export class CommandContext {
         return result;
     }
 }
+
+export class CustomCommandLoader {
+    public static LoadCustomCommandConfig(): CustomCommand[] {
+        let paths: string[] = vscode.workspace.getConfiguration("powertools").get<string[]>("CommandFiles") || new Array<string>();
+        let customCommands = new Array<CustomCommand>();
+        for (let index = 0; index < paths.length; index++) {
+            const path = paths[index];
+            if (fs.statSync(path).isFile()) {
+                customCommands.push(...CustomCommandLoader.LoadFile(path));
+            } else {
+                customCommands.push(...CustomCommandLoader.LoadDir(path));
+            }
+        }
+        return customCommands;
+    }
+
+    private static LoadFile(path: string) {
+        delete require.cache[require.resolve(path)];
+        let customCommands = new Array<CustomCommand>();
+        let moduleExports = require(path);
+        if (typeof moduleExports === 'function') {
+            customCommands.push({ label: path, func: <Function>moduleExports });
+        } else {
+            for (const key in moduleExports) {
+                customCommands.push({ label: key, func: <Function>moduleExports[key] });
+            }
+        }
+        return customCommands;
+    }
+
+    private static LoadDir(path: string) {
+        let customCommands = new Array<CustomCommand>();
+        let files = fs.readdirSync(path);
+        for (let index = 0; index < files.length; index++) {
+            const file = files[index];
+            if (!file.toLowerCase().endsWith(".js")) {
+                continue;
+            }
+            customCommands.push(...CustomCommandLoader.LoadFile(`${path}/${file}`));
+        }
+        return customCommands;
+    }
+}
+
+export class CustomCommand implements vscode.QuickPickItem {
+    public label: string;
+    public description?: string | undefined;
+    public detail?: string | undefined;
+    public picked?: boolean | undefined;
+    public alwaysShow?: boolean | undefined;
+
+    public func: Function;
+
+    public constructor(label: string, func: Function) {
+        this.label = label;
+        this.func = func;
+    }
+}
+
