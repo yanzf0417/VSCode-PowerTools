@@ -240,6 +240,17 @@ export class TextProcesser extends Processer {
         });
     }
 
+    public getText(): string {
+        return this._editor.document.getText(this._editor.selection);
+    }
+
+    public async setText(text: string): Promise<void> {
+        const selection = this._editor.selection;
+        await this._editor.edit((textEdit) => {
+            textEdit.replace(selection, text);
+        });
+    }
+
     public getProcessLines(): SelectedLine[] { 
         return this.isSelectNothing() ? this.getAllLines() : this.getSelectedLines();
     }

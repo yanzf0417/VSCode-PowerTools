@@ -55,14 +55,20 @@ PowerTools目的是扩展VSCode文本处理能力,提供转换大小写、base64
 ### 编写js文件
 在本地新建一个js文件，复制以下内容：
 ```javascript
-module.exports.helloWorld = function(context) {
-    var vscode = context.require('vscode');
-    vscode.window.showInformationMessage("hello world!");
+module.exports.custom_toupper = async function(context) {
+    var text = context.getText();
+    await context.setText(text.toUpperCase());
 }
 ```
-这段代码的作用是导出一个名字为`helloworld`的自定义指令。
+这段代码的作用是导出一个名字为`custom_toupper`的自定义指令，这个指令的作用是将选中文本转成大写。
 
 现在我们看看函数的实现，可以注意到函数有一个`context`参数，插件会在运行时把当前上下文对象注入到该参数。`context`暴露了以下方法供用户使用：
+#### `function getText(): string;`
+获取选中文本
+
+#### `function setText(text: string): Promise<void>;`
+将当前选中内容设置为指定文本
+
 #### `function require(module: string): any;`
 用于加载外部模块
 ```javascript
@@ -134,6 +140,9 @@ module.exports.toUpper = async function (context) {
 ![configcustom](https://github.com/yanzf0417/assets/blob/master/powertools/configcustom.gif?raw=true)
 
 ## Release Notes 
+
+### 1.0.2
+自定义指令新增支持getText和setText方法方便快速修改文本
 
 ### 1.0.1
 
