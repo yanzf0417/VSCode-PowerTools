@@ -2,12 +2,10 @@
 
 PowerTools目的是扩展VSCode文本处理能力,提供转换大小写、base64编码解码、排序行，哈希文本、自定义扩展指令等功能。 
 
-插件使用&开发交流群：`895768531`
-
 ## 主要功能
 
 ### 自定义扩展指令
-- [如何编写自定义扩展指令文件](#编写js文件)
+- [如何编写自定义扩展指令文件](#Custom%20Command)
 - [配置](#配置指令文件路径)
 ### 文本处理
 
@@ -49,10 +47,10 @@ PowerTools目的是扩展VSCode文本处理能力,提供转换大小写、base64
 ![reverse](https://github.com/yanzf0417/assets/blob/master/powertools/reverse.gif?raw=true)
 
 
-## 自定义扩展指令
+## Custom Command
 插件支持用户通过加载外部js文件来达到扩展功能的目的。对于有自定义扩展需求的用户，可以参照以下步骤来实现。
 
-### 编写js文件
+## 一.编写js文件
 在本地新建一个js文件，复制以下内容：
 ```javascript
 module.exports.custom_toupper = async function(context) {
@@ -127,7 +125,7 @@ module.exports.toUpper = async function (context) {
 打印文本
 
 
-### 配置指令文件路径
+## 二.配置指令文件路径
 ##### 1）通过`文件菜单` -> `首选项` -> `设置` -> `扩展` -> `PowerTools`，然后点击`在setting.json中编辑`。
 ##### 2）在配置文件末尾加上以下节点：
 ```json
