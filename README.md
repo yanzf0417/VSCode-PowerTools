@@ -133,11 +133,12 @@ module.exports.toUpper = async function (context) {
 ```
 - 支持配置多个
 - 支持配置文件夹，当路径时文件夹时，自动加载该文件夹下所有js文件
-  
-操作演示：
-![configcustom](https://github.com/yanzf0417/assets/blob/master/powertools/configcustom.gif?raw=true)
+
 
 ## Release Notes 
+
+### 1.0.3
+错误修复
 
 ### 1.0.2
 自定义指令新增支持getText和setText方法方便快速修改文本

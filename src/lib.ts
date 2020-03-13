@@ -165,7 +165,7 @@ export class TextProcesser extends Processer {
         for (let index = 0; index < lines.length; index++) {
             const line = lines[index];
             const txt = (columnBlock ? line.selectedText : line.text).trim();
-            if (!/^[0-9]+$/.test(txt)) {
+            if (!/^[0-9]+(\.[0-9]+)?$/.test(txt)) {
                 this.print(`[line:${line.lineNumber}][text:${txt}] is not a number`);
                 return;
             }
