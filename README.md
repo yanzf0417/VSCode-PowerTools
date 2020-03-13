@@ -137,7 +137,7 @@ module.exports.toUpper = async function (context) {
 
 ## Release Notes 
 
-### 1.0.3
+### 1.0.4
 错误修复
 
 ### 1.0.2
