@@ -137,6 +137,9 @@ module.exports.toUpper = async function (context) {
 
 ## Release Notes 
 
+### 1.0.5
+添加项目git地址
+
 ### 1.0.4
 错误修复
 
